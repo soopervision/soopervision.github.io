@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SooperVision — Parental Screen Monitoring</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F5F5F0; color: #1A1A1A; }
+
+    header {
+      background: #1D4A4A;
+      padding: 20px 32px;
+    }
+
+    .logo-bar { display: flex; align-items: center; gap: 0; }
+    .logo-sooper { background: #FFFFFF; color: #1D4A4A; font-size: 24px; font-weight: 900; padding: 10px 20px; }
+    .logo-vision { background: #1D4A4A; color: #FFFFFF; font-size: 24px; font-weight: 700; padding: 10px 20px; border: 2px solid #FFFFFF; border-left: none; }
+
+    .hero {
+      background: #F5C842;
+      text-align: center;
+      padding: 72px 32px 64px;
+    }
+
+    .hero .logo-wrap { display: flex; justify-content: center; gap: 0; margin-bottom: 24px; }
+    .hero .logo-wrap .logo-sooper { font-size: 36px; padding: 14px 28px; }
+    .hero .logo-wrap .logo-vision { font-size: 36px; padding: 14px 28px; border: 3px solid #FFFFFF; border-left: none; }
+
+    .hero h1 { font-size: 32px; font-weight: 900; color: #1D4A4A; margin-bottom: 16px; }
+    .hero p { font-size: 17px; color: #1D4A4A; opacity: 0.8; max-width: 500px; margin: 0 auto 32px; line-height: 1.6; }
+
+    .badge {
+      display: inline-block;
+      background: #1D4A4A;
+      color: #F5C842;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .features {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 56px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 28px 24px;
+      border-left: 4px solid #1D4A4A;
+    }
+
+    .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 16px; font-weight: 800; color: #1D4A4A; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: #555; line-height: 1.6; }
+
+    .legal-section {
+      background: #1D4A4A;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .legal-section h2 { color: #F5C842; font-size: 22px; margin-bottom: 8px; }
+    .legal-section p { color: rgba(255,255,255,0.75); font-size: 14px; margin-bottom: 28px; }
+
+    .legal-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .legal-link {
+      display: inline-block;
+      background: #F5C842;
+      color: #1D4A4A;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    .legal-link.outline {
+      background: transparent;
+      color: #F5C842;
+      border: 2px solid #F5C842;
+    }
+
+    .legal-link:hover { opacity: 0.9; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #888;
+      border-top: 1px solid #E0E0E0;
+    }
+
+    footer a { color: #1D4A4A; text-decoration: none; font-weight: 700; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 20px; }
+      .hero .logo-wrap .logo-sooper,
+      .hero .logo-wrap .logo-vision { font-size: 28px; padding: 12px 20px; }
+      .hero h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-bar">
+    <span class="logo-sooper">sooper</span>
+    <span class="logo-vision">vision</span>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Know What's on Their Screen</h1>
+  <p>SooperVision lets parents monitor their child's device screen in real time — safely, transparently, and with consent.</p>
+  <span class="badge">📱 Available on Android</span>
+</div>
+
+<div class="features">
+
+  <div class="feature-card">
+    <div class="icon">👁️</div>
+    <h3>Live Screen View</h3>
+    <p>Watch any paired device screen in real time. No delays, no recordings — just a live window into what's happening.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">🔔</div>
+    <h3>Transparent by Design</h3>
+    <p>The child's device always shows a visible notification during sharing. Nothing is hidden — ever.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">📱</div>
+    <h3>Multiple Devices</h3>
+    <p>Monitor all your children's devices from one parent account. Switch between hosts easily.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">🔒</div>
+    <h3>Secure &amp; Private</h3>
+    <p>Screen data is peer-to-peer via WebRTC. Nothing is recorded or stored on any server.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">⏱️</div>
+    <h3>Free Trial</h3>
+    <p>Try SooperVision free for 24 hours. No credit card required to get started.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">💳</div>
+    <h3>Simple Pricing</h3>
+    <p>₹179/month or ₹1,499/year. Cancel anytime. Payments secured by Razorpay.</p>
+  </div>
+
+</div>
+
+<div class="legal-section">
+  <h2>Legal &amp; Privacy</h2>
+  <p>We believe in full transparency. Read our policies to understand exactly how we handle your data.</p>
+  <div class="legal-links">
+    <a href="privacy-policy.html" class="legal-link">Privacy Policy</a>
+    <a href="terms.html" class="legal-link outline">Terms &amp; Conditions</a>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 SooperVision. All rights reserved. &nbsp;|&nbsp;
+  <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
+  <a href="terms.html">Terms &amp; Conditions</a> &nbsp;|&nbsp;
+  <a href="mailto:support@soopervision.app">support@soopervision.app</a>
+</footer>
+
+</body>
+</html>
