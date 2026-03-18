@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SooperVision — Admin</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+    :root {
+      --teal:    #1D4A4A;
+      --yellow:  #F5C842;
+      --white:   #FFFFFF;
+      --bg:      #F0EDE6;
+      --card:    #FFFFFF;
+      --muted:   #7A7A72;
+      --border:  #E2DDD6;
+      --green:   #2ECC71;
+      --red:     #E74C3C;
+      --orange:  #F39C12;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--teal);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN SCREEN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--teal);
+    }
+
+    .login-box {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-logo {
+      display: inline-flex;
+      margin-bottom: 32px;
+    }
+
+    .logo-s {
+      background: var(--white);
+      color: var(--teal);
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      padding: 10px 18px;
+      border: 2px solid var(--teal);
+      border-right: none;
+    }
+
+    .logo-v {
+      background: var(--teal);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border: 2px solid var(--teal);
+    }
+
+    .login-box h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .login-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: 'DM Mono', monospace;
+      color: var(--teal);
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      letter-spacing: 3px;
+    }
+
+    .login-box input:focus { border-color: var(--teal); }
+
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      background: var(--teal);
+      color: var(--yellow);
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .login-box button:hover { opacity: 0.88; }
+
+    .login-error {
+      color: var(--red);
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; }
+
+    header {
+      background: var(--teal);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo { display: flex; align-items: center; gap: 0; }
+
+    .header-logo .logo-s {
+      font-size: 16px;
+      padding: 6px 12px;
+      border-color: rgba(255,255,255,0.3);
+      background: var(--white);
+    }
+
+    .header-logo .logo-v {
+      font-size: 16px;
+      padding: 6px 12px;
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-badge {
+      background: rgba(245,200,66,0.15);
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(245,200,66,0.3);
+      letter-spacing: 0.5px;
+    }
+
+    .refresh-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .refresh-btn:hover { background: rgba(255,255,255,0.18); }
+
+    .logout-btn {
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .logout-btn:hover { color: white; }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .page-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    #lastUpdated {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+    }
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .stat-card:hover { transform: translateY(-2px); }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+    }
+
+    .stat-card.teal::before   { background: var(--teal); }
+    .stat-card.yellow::before { background: var(--yellow); }
+    .stat-card.green::before  { background: var(--green); }
+    .stat-card.red::before    { background: var(--red); }
+    .stat-card.orange::before { background: var(--orange); }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── REVENUE CARD ── */
+    .revenue-card {
+      background: var(--teal);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .revenue-item { flex: 1; min-width: 140px; }
+
+    .revenue-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .revenue-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .revenue-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    .revenue-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ── USER TABLE ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .filter-tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .filter-tab.active {
+      background: var(--teal);
+      color: var(--yellow);
+      border-color: var(--teal);
+    }
+
+    .table-wrap {
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #F7F4EE;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 14px 20px;
+      font-size: 13px;
+      color: var(--teal);
+      border-bottom: 1px solid #F3F0EA;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #FAF8F3; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-paid    { background: #E8F8EF; color: #1A8040; }
+    .badge-trial   { background: #FFF8E1; color: #B8860B; }
+    .badge-expired { background: #FEECEC; color: #C0392B; }
+    .badge-anon    { background: #F0F0F0; color: #888; }
+
+    .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+
+    .loading-row td {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px;
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .export-btn {
+      background: var(--teal);
+      color: var(--yellow);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+    }
+
+    .export-btn:hover { opacity: 0.85; }
+
+    @media (max-width: 600px) {
+      main { padding: 20px 16px 48px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .revenue-card { gap: 24px; }
+      .revenue-divider { display: none; }
+      th:nth-child(3), td:nth-child(3),
+      th:nth-child(5), td:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <span class="logo-s">sooper</span>
+      <span class="logo-v">vision</span>
+    </div>
+    <h2>Admin Dashboard</h2>
+    <p>Enter your admin password to continue</p>
+    <input type="password" id="passwordInput" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button onclick="doLogin()">SIGN IN</button>
+    <p class="login-error" id="loginError">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+  <header>
+    <div class="header-logo">
+      <span class="logo-s">sooper</span>
+      <span class="logo-v">vision</span>
+    </div>
+    <div class="header-right">
+      <span class="header-badge">ADMIN</span>
+      <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-title">Dashboard</div>
+    <div class="page-sub">Last updated: <span id="lastUpdated">—</span></div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card teal">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-value" id="statTotal">—</div>
+        <div class="stat-sub">Registered accounts</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Paid Active</div>
+        <div class="stat-value" id="statPaid">—</div>
+        <div class="stat-sub">Active subscriptions</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="stat-label">Free Trial</div>
+        <div class="stat-value" id="statTrial">—</div>
+        <div class="stat-sub">Within 24hr window</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Expired</div>
+        <div class="stat-value" id="statExpired">—</div>
+        <div class="stat-sub">Trial ended, no plan</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-label">Monthly Plans</div>
+        <div class="stat-value" id="statMonthly">—</div>
+        <div class="stat-sub">₹179/month</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-label">Yearly Plans</div>
+        <div class="stat-value" id="statYearly">—</div>
+        <div class="stat-sub">₹1499/year</div>
+      </div>
+    </div>
+
+    <!-- Revenue -->
+    <div class="revenue-card">
+      <div class="revenue-item">
+        <div class="revenue-label">Monthly Revenue</div>
+        <div class="revenue-value" id="revMonthly">₹0</div>
+        <div class="revenue-sub">Active monthly × ₹179</div>
+      </div>
+      <div class="revenue-divider"></div>
+      <div class="revenue-item">
+        <div class="revenue-label">Yearly Revenue (Annual)</div>
+        <div class="revenue-value" id="revYearly">₹0</div>
+        <div class="revenue-sub">Active yearly × ₹1499</div>
+      </div>
+      <div class="revenue-divider"></div>
+      <div class="revenue-item">
+        <div class="revenue-label">Total MRR</div>
+        <div class="revenue-value" id="revTotal">₹0</div>
+        <div class="revenue-sub">Monthly recurring revenue</div>
+      </div>
+    </div>
+
+    <!-- User table -->
+    <div class="section-header">
+      <div class="section-title">All Users</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="filter-tabs">
+          <div class="filter-tab active" onclick="filterTable('all', this)">All</div>
+          <div class="filter-tab" onclick="filterTable('paid', this)">Paid</div>
+          <div class="filter-tab" onclick="filterTable('trial', this)">Trial</div>
+          <div class="filter-tab" onclick="filterTable('expired', this)">Expired</div>
+        </div>
+        <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>City</th>
+            <th>Status</th>
+            <th>Plan</th>
+            <th>Registered</th>
+            <th>Expiry</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+          <tr class="loading-row"><td colspan="7">Loading users…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ── CONFIG ──────────────────────────────────────────────────
+  const ADMIN_PASSWORD = "Ifucan@590784"; // 
+  const FIREBASE_CONFIG = {
+    apiKey:            "AIzaSyCurz7hOInXxWNHTZFVgE8yWG0D_zjaL7k", //
+    authDomain:        "familywatch-61440.firebaseapp.com",
+    databaseURL:       "https://familywatch-61440-default-rtdb.firebaseio.com",
+    projectId:         "familywatch-61440",
+    storageBucket:     "familywatch-61440.appspot.com",
+    messagingSenderId: "226855970081",                             // 
+    appId:             "1:226855970081:web:5bd23fafdfc8e0ec0b8a60"      // 
+  };
+  // ────────────────────────────────────────────────────────────
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const db  = getDatabase(app);
+
+  let allUsers = [];
+  let currentFilter = 'all';
+
+  // ── AUTH ──
+  window.doLogin = () => {
+    const pwd = document.getElementById('passwordInput').value;
+    if (pwd === ADMIN_PASSWORD) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadData();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  };
+
+  window.doLogout = () => {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+  };
+
+  // ── LOAD DATA ──
+  window.loadData = async () => {
+    document.getElementById('userTableBody').innerHTML =
+      '<tr class="loading-row"><td colspan="7">Loading…</td></tr>';
+
+    try {
+      const snap = await get(ref(db, 'users'));
+      if (!snap.exists()) {
+        document.getElementById('userTableBody').innerHTML =
+          '<tr class="loading-row"><td colspan="7">No users yet.</td></tr>';
+        return;
+      }
+
+      const now = Date.now();
+      allUsers = [];
+
+      snap.forEach(child => {
+        const uid       = child.key;
+        const data      = child.val();
+        const profile   = data.profile || {};
+        const trialStart = data.trial_start || 0;
+        const subExpiry  = data.subscription_expiry || 0;
+        const subPlan    = data.subscription_plan || '';
+
+        let status = 'expired';
+        if (subExpiry > now)                                    status = 'paid';
+        else if (trialStart > 0 && (now - trialStart) < 86400000) status = 'trial';
+        else if (!profile.first_name)                           status = 'anon';
+
+        allUsers.push({
+          uid,
+          firstName:   profile.first_name  || '',
+          lastName:    profile.last_name   || '',
+          phone:       profile.phone       || '',
+          email:       profile.email       || '',
+          city:        profile.city        || '—',
+          status,
+          plan:        subPlan,
+          subExpiry,
+          registeredAt: profile.registered_at || trialStart || 0,
+          trialStart,
+        });
+      });
+
+      updateStats(now);
+      renderTable(currentFilter);
+      document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+    } catch (e) {
+      document.getElementById('userTableBody').innerHTML =
+        `<tr class="loading-row"><td colspan="7">Error: ${e.message}</td></tr>`;
+    }
+  };
+
+  // ── STATS ──
+  function updateStats(now) {
+    const total   = allUsers.length;
+    const paid    = allUsers.filter(u => u.status === 'paid').length;
+    const trial   = allUsers.filter(u => u.status === 'trial').length;
+    const expired = allUsers.filter(u => u.status === 'expired').length;
+    const monthly = allUsers.filter(u => u.status === 'paid' && u.plan === 'monthly').length;
+    const yearly  = allUsers.filter(u => u.status === 'paid' && u.plan === 'yearly').length;
+
+    document.getElementById('statTotal').textContent   = total;
+    document.getElementById('statPaid').textContent    = paid;
+    document.getElementById('statTrial').textContent   = trial;
+    document.getElementById('statExpired').textContent = expired;
+    document.getElementById('statMonthly').textContent = monthly;
+    document.getElementById('statYearly').textContent  = yearly;
+
+    const monthlyRev = monthly * 179;
+    const yearlyMRR  = Math.round(yearly * 1499 / 12);
+    const totalMRR   = monthlyRev + yearlyMRR;
+
+    document.getElementById('revMonthly').textContent = `₹${monthlyRev.toLocaleString('en-IN')}`;
+    document.getElementById('revYearly').textContent  = `₹${(yearly * 1499).toLocaleString('en-IN')}`;
+    document.getElementById('revTotal').textContent   = `₹${totalMRR.toLocaleString('en-IN')}`;
+  }
+
+  // ── TABLE ──
+  window.filterTable = (filter, el) => {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderTable(filter);
+  };
+
+  function renderTable(filter) {
+    const users = filter === 'all'
+      ? allUsers
+      : allUsers.filter(u => u.status === filter);
+
+    if (users.length === 0) {
+      document.getElementById('userTableBody').innerHTML =
+        `<tr class="loading-row"><td colspan="7">No users in this category.</td></tr>`;
+      return;
+    }
+
+    const fmt = ts => ts
+      ? new Date(ts).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
+      : '—';
+
+    const badgeMap = {
+      paid:    '<span class="badge badge-paid">PAID</span>',
+      trial:   '<span class="badge badge-trial">TRIAL</span>',
+      expired: '<span class="badge badge-expired">EXPIRED</span>',
+      anon:    '<span class="badge badge-anon">ANON</span>',
+    };
+
+    document.getElementById('userTableBody').innerHTML = users.map(u => `
+      <tr>
+        <td><strong>${u.firstName} ${u.lastName || ''}</strong></td>
+        <td class="mono">${u.phone || u.email || '—'}</td>
+        <td>${u.city}</td>
+        <td>${badgeMap[u.status] || ''}</td>
+        <td>${u.plan ? u.plan.charAt(0).toUpperCase() + u.plan.slice(1) : '—'}</td>
+        <td class="mono">${fmt(u.registeredAt)}</td>
+        <td class="mono">${u.subExpiry ? fmt(u.subExpiry) : '—'}</td>
+      </tr>
+    `).join('');
+  }
+
+  // ── EXPORT CSV ──
+  window.exportCSV = () => {
+    const headers = ['Name','Phone','Email','City','Status','Plan','Registered','Expiry'];
+    const fmt = ts => ts
+      ? new Date(ts).toLocaleDateString('en-IN') : '';
+
+    const rows = allUsers.map(u => [
+      `${u.firstName} ${u.lastName}`,
+      u.phone, u.email, u.city,
+      u.status, u.plan,
+      fmt(u.registeredAt), fmt(u.subExpiry)
+    ].map(v => `"${v}"`).join(','));
+
+    const csv  = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `soopervision_users_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
+</body>
+</html>
